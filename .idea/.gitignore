@@ -9,3 +9,9 @@
 
 # Contains machine-specific settings
 misc.xml
+
+# can be obtained from Gradle:
+/modules.xml
+/compiler.xml
+artifacts/
+libraries/
