@@ -2,7 +2,7 @@ import com.strumenta.antlrkotlin.gradle.AntlrKotlinTask
 
 plugins {
     id("multiplatform")
-    id("com.strumenta.antlr-kotlin") version "1.0.3"
+    id("com.strumenta.antlr-kotlin") version "1.0.4-SNAPSHOT"
 }
 
 

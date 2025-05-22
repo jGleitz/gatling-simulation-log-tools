@@ -1,7 +1,12 @@
-grammar GatlingSimulationLog;
+parser grammar GatlingSimulationLog;
 
 @header {
     import de.joshuagleitze.gatling.simulationlog.parser.tokens.ByteToken
+}
+
+// we operate on raw bytes, produced by [ByteTokenStream]
+tokens {
+    BYTE
 }
 
 runRecord:
@@ -38,17 +43,17 @@ int returns [value: Int]:
             ($d as ByteToken).value.toInt()
     };
 
-byteSequence[count: Int] returns [value: ByteArray] locals [remaining: Int]:
+byteSequence[count: Int] returns [value: ByteArray] locals [index: Int]:
     {
-        $value = ByteArray(count)
-        $remaining = $count
+        $value = ByteArray($count!!)
+        $index = 0
     }
     (
-        {$remaining > 0}?
+        {$index!! < $count!!}?
         BYTE
         {
-            $value += ($BYTE as ByteToken).value.toByte()
-            $remaining -= 1
+            $value!![$index!!] = ($BYTE as ByteToken).value.toByte()
+            $index = $index!! + 1
         }
     )*;
 
@@ -57,5 +62,3 @@ byte returns [value: Byte]:
     {
         $value = ($BYTE as ByteToken).value.toByte()
     };
-
-BYTE: '\u0000'..'\u00FF';
