@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalStdlibApi::class)
+
 package de.joshuagleitze.gatling.simulationlog.parser.tokens
 
 import org.antlr.v4.kotlinruntime.CharStream
 import org.antlr.v4.kotlinruntime.Token
 import org.antlr.v4.kotlinruntime.Token.Companion.DEFAULT_CHANNEL
 import org.antlr.v4.kotlinruntime.TokenSource
+import kotlin.text.HexFormat.Companion.UpperCase
 
 sealed interface ByteToken : Token {
     val value: UByte
@@ -25,11 +28,11 @@ sealed interface ByteToken : Token {
     override val inputStream: CharStream?
         get() = null
 
-    override val text: String?
-        get() = null
-
     override val tokenSource: TokenSource?
         get() = null
+
+    override val text: String
+        get() = value.toHexString(UpperCase)
 
     class Value(
         override val value: UByte,
@@ -45,6 +48,18 @@ sealed interface ByteToken : Token {
 
         override val type: Int
             get() = Token.EOF
+
+        override val text: String
+            get() = "<EOF>"
+    }
+
+    class Artificial(
+        override val text: String,
+        override val type: Int,
+        override val startIndex: Int
+    ) : ByteToken {
+        override val value: UByte
+            get() = error("artificial token: $text")
     }
 }
 

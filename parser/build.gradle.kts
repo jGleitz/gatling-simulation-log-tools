@@ -26,6 +26,7 @@ kotlin {
             dependencies {
                 implementation("com.strumenta:antlr-kotlin-runtime:1.0.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.7.0")
+                implementation("com.fleeksoft.charset:charset:0.0.4")
             }
         }
     }
